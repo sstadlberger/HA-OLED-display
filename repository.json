@@ -1,5 +1,4 @@
 {
     "name": "Home Assistant Add-ons:",
-    "url": "https://github.com/UCTRONICS/HomeAssistant",
-    "maintainer": "UCTRONICS <support@uctronics.com>"
+    "url": "https://github.com/aomann/HA-OLED-display",
 }
