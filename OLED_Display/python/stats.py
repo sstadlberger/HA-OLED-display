@@ -13,10 +13,9 @@ import random
 import argparse
 import os
 
-locale.setlocale(locale.LC_ALL, "de_DE.utf8")
+print("Hello World")
 
-displayOn = 5
-displayOff = 0
+locale.setlocale(locale.LC_ALL, "de_DE.utf8")
 
 displayWidth = 128
 displayHeight = 64
@@ -178,8 +177,6 @@ def displayNetwork():
 
     disp.image(image)
     disp.show()
-    time.sleep(displayOn)
-    image.paste(iconCPU, (0, 0))
 
 
 def displayCPU():
@@ -208,7 +205,6 @@ def displayCPU():
 
     disp.image(image)
     disp.show()
-    time.sleep(displayOn)
 
 
 def displayRAM():
@@ -237,7 +233,6 @@ def displayRAM():
 
     disp.image(image)
     disp.show()
-    time.sleep(displayOn)
 
 
 def displayStorage():
@@ -266,7 +261,6 @@ def displayStorage():
 
     disp.image(image)
     disp.show()
-    time.sleep(displayOn)
 
 
 def displayAds():
@@ -295,7 +289,6 @@ def displayAds():
 
     disp.image(image)
     disp.show()
-    time.sleep(displayOn)
 
 
 def displayMode():
