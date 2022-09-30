@@ -50,7 +50,8 @@ RUN \
     && dpkg-reconfigure --frontend=noninteractive locales \
     \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /usr/src/* 
+    && rm -rf /usr/src/* \
+    && locale -a
 
 # Install Pythong Libs for this Add-on
 RUN pip3 install requests
