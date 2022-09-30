@@ -1,6 +1,6 @@
 {
     "name": "OLED Display",
-    "version": "2022.09.30.006",
+    "version": "2022.09.30.007",
     "slug": "oled_display",
     "description": "This addon lets you display info on a SSD1306 128x64 OLED display.",
     "arch": [
@@ -23,11 +23,5 @@
     "full_access": true,
     "url": "https://github.com/sstadlberger/HomeAssistant/tree/main/OLED_Display",
     "boot": "manual",
-    "options": {
-        "Stop_Auto_Run": false
-    },
-    "schema": {
-        "Stop_Auto_Run": "bool"
-    },
     "init": false
 }
