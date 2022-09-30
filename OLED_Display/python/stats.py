@@ -1,5 +1,6 @@
 import json
 import subprocess
+import schedule
 import time
 import locale
 import requests
@@ -288,7 +289,6 @@ def displayAds():
     w, h = draw.textsize(drawString, font=font16)
     draw.text((128-w, 36), drawString, font=font16, fill=255)
 
-    # draw.text((0, 49), piHoleData["clients"] + " clients", font=font16, fill=255)
     drawString = piHoleData["clients"] + " IPs / " + piHoleData["ads"] + " ads"
     w, h = draw.textsize(drawString, font=font16)
     draw.text(((128 - w) / 2, 49), drawString, font=font16, fill=255)
@@ -297,29 +297,36 @@ def displayAds():
     disp.show()
     time.sleep(displayOn)
 
+
+def displayMode():
+    if args.mode == "pi-hole":
+        displayAds()
+    elif args.mode == "hassio":
+        displayAds()
+    else:
+        exit("--mode is not defined")
+
+
 def run():
-    # run
-    displayNetwork()
-    displayCPU()
-    displayRAM()
-    displayStorage()
-    if args.mode == 'pi-hole':
-        displayAds()
-    if args.mode == 'hassio':
-        displayAds()
-    displayNetwork()
-    displayCPU()
-    displayRAM()
-    displayStorage()
-    if args.mode == 'pi-hole':
-        displayAds()
-    if args.mode == 'hassio':
-        displayAds()
+    if args.mode == "blank":
+        displayClear()
+        exit()
 
-    exit()
+    schedule.every().minute.at(":00").do(displayNetwork)
+    schedule.every().minute.at(":06").do(displayCPU)
+    schedule.every().minute.at(":12").do(displayRAM)
+    schedule.every().minute.at(":18").do(displayStorage)
+    schedule.every().minute.at(":24").do(displayMode)
+    schedule.every().minute.at(":30").do(displayNetwork)
+    schedule.every().minute.at(":36").do(displayCPU)
+    schedule.every().minute.at(":42").do(displayRAM)
+    schedule.every().minute.at(":48").do(displayStorage)
+    schedule.every().minute.at(":56").do(displayMode)
 
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
 if __name__ == "__main__":
     run()
-
