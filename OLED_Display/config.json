@@ -1,8 +1,8 @@
 {
-    "name": "UCTRONICS OLED Display (Python)",
-    "version": "2021.10.25.003",
-    "slug": "uctronics_oled_display_python",
-    "description": "This addon lets you display to your OLED provided in the UCTRONICS Pi Rack 4 with the ssd1306 OLED.",
+    "name": "OLED Display",
+    "version": "2022.09.30.001",
+    "slug": "oled_displayn",
+    "description": "This addon lets you display info on a SSD1306 128x64 OLED display.",
     "arch": [
         "armhf",
         "armv7",
@@ -24,26 +24,12 @@
     "gpio": true,
     "stage": "experimental",
     "full_access": true,
-    "url": "https://github.com/UCTRONICS/HomeAssistant/tree/main/UCTronics_OLED_Display_Python",
+    "url": "https://github.com/sstadlberger/HomeAssistant/tree/main/OLED_Display",
     "boot": "manual",
     "options": {
-        "Show_Splash_Screen": true,
-        "Show_Network_Info": true,
-        "Show_Storage_Info": true,
-        "Show_Memory_Info": true,
-        "Show_CPU_Info": true,
-        "Temperature_Unit": "C",
-        "Slide_Duration": 5,
         "Stop_Auto_Run": false
     },
     "schema": {
-        "Show_Splash_Screen": "bool",
-        "Show_Network_Info": "bool",
-        "Show_Storage_Info": "bool",
-        "Show_Memory_Info": "bool",
-        "Show_CPU_Info": "bool",
-        "Temperature_Unit": "list(C|F)?",
-        "Slide_Duration": "int",
         "Stop_Auto_Run": "bool"
     }
 }

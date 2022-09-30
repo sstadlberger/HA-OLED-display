@@ -67,7 +67,7 @@ RUN pip3 install adafruit-circuitpython-ssd1306
 RUN pip3 install pillow
 RUN pip3 install websocket-client
 
-COPY /python* /UCTronics_OLED/
+COPY /python* /SSD1306OLED/
 
 # S6-Overlay
 COPY start.sh /
