@@ -14,6 +14,7 @@ import argparse
 import os
 
 print("Hello World")
+print(locale.LC_ALL)
 
 locale.setlocale(locale.LC_ALL, "de_DE.utf8")
 
