@@ -18,9 +18,6 @@
     "privileged": [
         "SYS_ADMIN"
     ],
-    "devices": [
-        "/dev/i2c-1"
-    ],
     "gpio": true,
     "stage": "experimental",
     "full_access": true,
