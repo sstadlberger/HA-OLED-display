@@ -55,7 +55,7 @@ RUN pip3 install gpiozero
 RUN pip3 install adafruit-blinka
 RUN pip3 install adafruit-circuitpython-ssd1306
 RUN pip3 install schedule
-RUN pip3 install PIL
+RUN pip3 install Pillow
 
 COPY /python* /SSD1306OLED/
 
