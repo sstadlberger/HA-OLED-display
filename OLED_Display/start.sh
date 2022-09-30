@@ -10,6 +10,7 @@ if ls /dev/i2c-1; then
     bashio::log.info "I2C access OK";
     bashio::log.info "Displaying info on OLED"
     cd /SSD1306OLED/
+    cat /etc/locale.gen
     locale -a
     python3 stats.py --mode hassio
 else
