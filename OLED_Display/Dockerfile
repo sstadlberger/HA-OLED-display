@@ -46,9 +46,9 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     \
-    sed -i -e "s/# de_DE.utf8.*/de_DE.utf8 UTF-8/" /etc/locale.gen && \
-    dpkg-reconfigure --frontend=noninteractive locales && \
-    update-locale LANG=de_DE.utf8 \
+    && sed -i -e "s/# de_DE.utf8.*/de_DE.utf8 UTF-8/" /etc/locale.gen \
+    && dpkg-reconfigure --frontend=noninteractive locales \
+    && update-locale LANG=de_DE.utf8 \
     \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /usr/src/* 
