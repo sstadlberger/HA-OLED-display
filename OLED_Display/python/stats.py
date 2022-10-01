@@ -23,6 +23,8 @@ print("----------")
 print(234687234682734.133)
 print("----------")
 print(locale.format_string("%d", 234687234682734.133, grouping=True))
+print("----------")
+print(os.getenv("SUPERVISOR_TOKEN"))
 print("END-------")
 
 displayWidth = 128
@@ -60,7 +62,8 @@ def shell_cmd(cmd):
 
 
 def hassos_get_info(type):
-    info = shell_cmd('curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" http://supervisor/' + type)
+    token = os.getenv("SUPERVISOR_TOKEN")
+    info = shell_cmd('curl -sSL -H "Authorization: Bearer ' + token + '" http://supervisor/' + type)
     print("START--hassos_get_info--")
     print(info)
     print("END----hassos_get_info--")
@@ -88,13 +91,16 @@ def getBaseData():
 
     cmd = "hostname -I | cut -d\' \' -f1 | tr -d \'\\n\'"
     baseData["ip"] = shell_cmd(cmd)
+    print("ip---------------")
     print(baseData)
     cmd = "hostname | tr -d \'\\n\'"
     baseData["host"] = shell_cmd(cmd)
+    print("host-------------")
     print(baseData)
     
     cmd = "cat /sys/class/net/eth0/address"
     baseData["mac"] = shell_cmd(cmd)
+    print("mac--------------")
     print(baseData)
 
     if args.mode == "pi-hole":
@@ -106,20 +112,25 @@ def getBaseData():
         cmd = "dmesg"
         tmp = shell_cmd(cmd)
         print(tmp)
+    print("link-------------")
     print(baseData)
 
     cmd = "top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'"
     baseData["cpu"] = shell_cmd(cmd)
+    print("-----------------")
     print(baseData)
 
     cmd = "free -m | awk 'NR==2{printf \"%s/%s\", $3,$2 }'"
     data = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
     parts = data.split("/")
     baseData["memoryPct"] = locale.format_string("%d", float(parts[0]) / float(parts[1]) * 100, grouping=True) + "%"
+    print("-----------------")
     print(baseData)
     baseData["memoryUsed"] = locale.format_string("%d", float(parts[0]), grouping=True) + "MB"
+    print("-----------------")
     print(baseData)
     baseData["memoryTotal"] = locale.format_string("%d", float(parts[1]), grouping=True) + "MB"
+    print("-----------------")
     print(baseData)
 
     cmd = "df -h | awk '$NF==\"/\"{printf \"%d/%d\", $3,$2}'"

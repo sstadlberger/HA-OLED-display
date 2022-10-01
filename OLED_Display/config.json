@@ -1,6 +1,6 @@
 {
     "name": "OLED Display",
-    "version": "2022.10.01.005",
+    "version": "2022.10.01.006",
     "slug": "oled_display",
     "description": "This addon lets you display info on a SSD1306 128x64 OLED display.",
     "arch": [
@@ -21,6 +21,12 @@
     "devices": [
         "/dev/i2c-1"
     ],
+    "options": {
+        "SUPERVISOR_TOKEN": "NOTSET"
+    },
+    "schema": {
+        "SUPERVISOR_TOKEN": "str"
+    },
     "gpio": true,
     "stage": "experimental",
     "full_access": true,
