@@ -13,10 +13,17 @@ import random
 import argparse
 import os
 
-print("Hello World")
-print(locale.LC_ALL)
-
 locale.setlocale(locale.LC_ALL, "de_DE.utf8")
+
+print("START-----")
+print("Hello World")
+print("----------")
+print(locale.LC_ALL)
+print("----------")
+print(234687234682734.133)
+print("----------")
+print(locale.format_string("%d", 234687234682734.133, grouping=True))
+print("END-------")
 
 displayWidth = 128
 displayHeight = 64
