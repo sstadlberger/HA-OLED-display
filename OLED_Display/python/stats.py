@@ -22,9 +22,7 @@ print(locale.LC_ALL)
 print("----------")
 print(234687234682734.133)
 print("----------")
-print(locale.format_string("%d", 234687234682734.133, grouping=True))
-print("----------")
-print(os.getenv("SUPERVISOR_TOKEN"))
+print(locale.format_string("%f.2", 234687234682734.133, grouping=True))
 print("----------")
 f = open("/data/options.json", "r")
 print(f.read())
@@ -67,7 +65,10 @@ def shell_cmd(cmd):
 
 
 def hassos_get_info(type):
-    token = os.getenv("SUPERVISOR_TOKEN")
+    config_file = open("/data/options.json", "r")
+    config_data = json.load(config_file)
+    print(config_data)
+    token = config_data['SUPERVISOR_TOKEN']
     info = shell_cmd('curl -sSL -H "Authorization: Bearer ' + token + '" http://supervisor/' + type)
     print("START--hassos_get_info--")
     print(info)
