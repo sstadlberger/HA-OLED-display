@@ -55,6 +55,10 @@ parser.add_argument("--mode", type=str, required=True)
 args = parser.parse_args()
 
 
+def shell_cmd(cmd):
+    return str(subprocess.check_output(cmd, shell=True).decode("utf-8")).strip()
+
+
 def hassos_get_info(type):
     info = shell_cmd('curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" http://supervisor/' + type)
     print("START--hassos_get_info--")
@@ -83,29 +87,29 @@ def getBaseData():
     print(baseData)
 
     cmd = "hostname -I | cut -d\' \' -f1 | tr -d \'\\n\'"
-    baseData["ip"] = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
+    baseData["ip"] = shell_cmd(cmd)
     print(baseData)
     cmd = "hostname | tr -d \'\\n\'"
-    baseData["host"] = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
+    baseData["host"] = shell_cmd(cmd)
     print(baseData)
     
     cmd = "cat /sys/class/net/eth0/address"
-    baseData["mac"] = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+    baseData["mac"] = shell_cmd(cmd)
     print(baseData)
 
     if args.mode == "pi-hole":
         cmd = "dmesg | grep eth0 | grep Up | grep -o -E '\- (.*?) -' | tail -1 | grep -o -E '[^ -]*'"
-        baseData["link"] = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+        baseData["link"] = shell_cmd(cmd)
     elif args.mode == "hassio":
         hassos_get_info("host/info")
         hassos_get_info("network/info")
         cmd = "dmesg"
-        tmp = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+        tmp = shell_cmd(cmd)
         print(tmp)
     print(baseData)
 
     cmd = "top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'"
-    baseData["cpu"] = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
+    baseData["cpu"] = shell_cmd(cmd)
     print(baseData)
 
     cmd = "free -m | awk 'NR==2{printf \"%s/%s\", $3,$2 }'"
