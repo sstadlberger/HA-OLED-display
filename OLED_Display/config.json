@@ -1,6 +1,6 @@
 {
     "name": "OLED Display",
-    "version": "2022.10.01.015",
+    "version": "2022.10.01.016",
     "slug": "oled_display",
     "description": "This addon lets you display info on a SSD1306 128x64 OLED display.",
     "arch": [
@@ -11,6 +11,7 @@
     "log_level": "info",
     "startup": "services",
     "hassio_api": true,
+    "hassio_role": "default",
     "auth_api": true,
     "ingress": false,
     "app_armor": true,
