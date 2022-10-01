@@ -54,6 +54,15 @@ parser = argparse.ArgumentParser(description="Display info on front OLED display
 parser.add_argument("--mode", type=str, required=True)
 args = parser.parse_args()
 
+
+def hassos_get_info(type):
+    info = shell_cmd('curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" http://supervisor/' + type)
+    print("START--hassos_get_info--")
+    print(info)
+    print("END----hassos_get_info--")
+    return json.loads(info)
+
+
 def getBaseData():
     baseData = {
         "ip": "",
@@ -71,47 +80,70 @@ def getBaseData():
         "load": ["", "", ""],
         "link": "",
     }
+    print(baseData)
 
     cmd = "hostname -I | cut -d\' \' -f1 | tr -d \'\\n\'"
     baseData["ip"] = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
-
+    print(baseData)
     cmd = "hostname | tr -d \'\\n\'"
     baseData["host"] = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
+    print(baseData)
     
     cmd = "cat /sys/class/net/eth0/address"
     baseData["mac"] = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+    print(baseData)
 
-    cmd = "dmesg | grep eth0 | grep Up | grep -o -E '\- (.*?) -' | tail -1 | grep -o -E '[^ -]*'"
-    baseData["link"] = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+    if args.mode == "pi-hole":
+        cmd = "dmesg | grep eth0 | grep Up | grep -o -E '\- (.*?) -' | tail -1 | grep -o -E '[^ -]*'"
+        baseData["link"] = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+    elif args.mode == "hassio":
+        hassos_get_info("host/info")
+        hassos_get_info("network/info")
+        cmd = "dmesg"
+        tmp = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+        print(tmp)
+    print(baseData)
 
     cmd = "top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'"
     baseData["cpu"] = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
+    print(baseData)
 
     cmd = "free -m | awk 'NR==2{printf \"%s/%s\", $3,$2 }'"
     data = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
     parts = data.split("/")
     baseData["memoryPct"] = locale.format_string("%d", float(parts[0]) / float(parts[1]) * 100, grouping=True) + "%"
+    print(baseData)
     baseData["memoryUsed"] = locale.format_string("%d", float(parts[0]), grouping=True) + "MB"
+    print(baseData)
     baseData["memoryTotal"] = locale.format_string("%d", float(parts[1]), grouping=True) + "MB"
+    print(baseData)
 
     cmd = "df -h | awk '$NF==\"/\"{printf \"%d/%d\", $3,$2}'"
     data = str(subprocess.check_output(cmd, shell=True).decode("utf-8"))
     parts = data.split("/")
     baseData["diskPct"] = locale.format_string("%d", float(parts[0]) / float(parts[1]) * 100, grouping=True) + "%"
+    print(baseData)
     baseData["diskTotal"] = locale.format_string("%d", float(parts[1]), grouping=True) + "GB"
+    print(baseData)
     baseData["diskUsed"] = locale.format_string("%d", float(parts[0]), grouping=True) + "GB"
+    print(baseData)
 
     cmd = "vcgencmd measure_temp | grep -E -o \"([0-9.\-])*\""
     data = float(subprocess.check_output(cmd, shell=True).decode("utf-8").strip())
     baseData["temperature"] = locale.format_string("%.1f", data, grouping=True) + "°C"
+    print(baseData)
 
     cmd = "uptime"
     data = str(subprocess.check_output(cmd, shell=True).decode("utf-8").strip())
     result = re.findall("up (.*?), +\d+ user.*?(\d\.\d\d).*?(\d\.\d\d).*?(\d\.\d\d)", data)
     baseData["uptime"] = result[0][0].replace("  ", " ")
+    print(baseData)
     baseData["load"][0] = locale.format_string("%.2f", float(result[0][1]), grouping=True)
+    print(baseData)
     baseData["load"][1] = locale.format_string("%.2f", float(result[0][2]), grouping=True)
+    print(baseData)
     baseData["load"][2] = locale.format_string("%.2f", float(result[0][3]), grouping=True)
+    print(baseData)
 
     return baseData
 
@@ -303,14 +335,14 @@ def displayMode():
         displayAds()
     elif args.mode == "hassio":
         displayAds()
-    else:
-        exit("--mode is not defined")
 
 
 def run():
     if args.mode == "blank":
         displayClear()
         exit()
+    elif args.mode != "pi-hole" and args.mode != "hassio":
+        exit("--mode is not defined")
 
     schedule.every().minute.at(":00").do(displayNetwork)
     schedule.every().minute.at(":06").do(displayCPU)
