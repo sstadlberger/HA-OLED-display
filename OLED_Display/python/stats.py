@@ -69,6 +69,8 @@ def hassos_get_info(type):
     config_data = json.load(config_file)
     print(config_data)
     token = config_data['SUPERVISOR_TOKEN']
+    print("Token: " + token)
+    print('curl -sSL -H "Authorization: Bearer ' + token + '" http://supervisor/' + type)
     info = shell_cmd('curl -sSL -H "Authorization: Bearer ' + token + '" http://supervisor/' + type)
     print("START--hassos_get_info--")
     print(info)
