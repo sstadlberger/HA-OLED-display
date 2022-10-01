@@ -75,6 +75,13 @@ def hassos_get_info(type):
     print("START--hassos_get_info--")
     print(info)
     print("END----hassos_get_info--")
+    token = "HCVJHAGVDJHGVASJHVASHGDVHJASGD"
+    print("Token: " + token)
+    print('curl -sSL -H "Authorization: Bearer ' + token + '" http://supervisor/' + type)
+    info = shell_cmd('curl -sSL -H "Authorization: Bearer ' + token + '" http://supervisor/' + type)
+    print("START--hassos_get_info--")
+    print(info)
+    print("END----hassos_get_info--")
     return json.loads(info)
 
 
