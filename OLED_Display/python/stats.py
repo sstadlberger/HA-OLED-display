@@ -25,7 +25,12 @@ print("----------")
 print(locale.format_string("%d", 234687234682734.133, grouping=True))
 print("----------")
 print(os.getenv("SUPERVISOR_TOKEN"))
+print("----------")
+f = open("/data/options.json", "r")
+print(f.read())
 print("END-------")
+
+
 
 displayWidth = 128
 displayHeight = 64
