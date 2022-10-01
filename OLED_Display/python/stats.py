@@ -143,7 +143,6 @@ def getPiHoleData():
 def displayClear():
     disp.fill(0)
     disp.show()
-    time.sleep(displayOff)
 
 
 def drawHeader(ip, host, icon, name):
