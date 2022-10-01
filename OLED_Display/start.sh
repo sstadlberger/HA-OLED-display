@@ -8,6 +8,10 @@ if ls /dev/i2c-1; then
     bashio::log.info "I2C access OK"
     bashio::log.info "Displaying info on OLED"
     cd /SSD1306OLED/
+    echo ZERO
+    echo $HASSIO_TOKEN
+    echo ZEROPOINTFIVE
+    echo $SUPERVISOR_TOKEN
     echo ONE
     curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" http://supervisor/host/info
     echo TWO
